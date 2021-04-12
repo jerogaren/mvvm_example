@@ -1,5 +1,6 @@
 package com.jerogaren.characterslistmarvelmvvm.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,19 +13,24 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jerogaren.characterslistmarvelmvvm.MainActivity
 import com.jerogaren.characterslistmarvelmvvm.R
 import com.jerogaren.characterslistmarvelmvvm.databinding.FragmentCharactersBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
 import com.jerogaren.characterslistmarvelmvvm.util.TAG
+import com.jerogaren.characterslistmarvelmvvm.util.addFragment
+import com.jerogaren.characterslistmarvelmvvm.util.replaceFragment
 import com.jerogaren.characterslistmarvelmvvm.viewmodel.CharactersViewModel
+import com.jerogaren.characterslistmarvelmvvm.viewmodel.MainActivityViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CharactersFragment : Fragment(), CharacterClickListener {
 
-
     private val charactersViewModel by viewModel<CharactersViewModel>()
     private lateinit var binding: FragmentCharactersBinding
     private lateinit var charactersAdapter : CharactersAdapter
+    private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
 
     companion object{
         const val FTAG = "CharactersFragment"
@@ -37,11 +43,8 @@ class CharactersFragment : Fragment(), CharacterClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding  = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_characters, container, false)
-        val mRootView = binding.root
-        binding.lifecycleOwner = this
-        return mRootView
+        binding  = FragmentCharactersBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,8 +62,16 @@ class CharactersFragment : Fragment(), CharacterClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainActivityViewModel.toolbarTitle.value = "All Characters"
+    }
+
+
     override fun onItemClick(characterData: CharacterData) {
         Log.d(TAG, "clicked: " +characterData.name)
+        (activity as MainActivity).addFragment(CharacterDetailsFragment.newInstance(characterData),
+        R.id.fragment_container, "characterDetails")
     }
 
     private fun setView() {

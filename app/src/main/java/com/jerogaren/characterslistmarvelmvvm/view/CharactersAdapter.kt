@@ -49,9 +49,7 @@ class CharactersAdapter(val context: Context?, val clickListener: CharacterClick
         fun onBind(position: Int) {
             val row = charactersList[position]
             viewBinding.characters = row
-            //Glide.with(viewBinding.root.context).load(row.thumbnail?.path+"."+row.thumbnail?.extension).into(viewBinding.imgThumbnail)
             val path = row.thumbnail?.path?.split("//")?.last()
-
             viewBinding.imgThumbnail.load("https://"+path+"."+row.thumbnail?.extension, viewBinding.root.context)
             viewBinding.characterClickInterface = clickListener
         }

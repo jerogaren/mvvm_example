@@ -33,7 +33,7 @@ data class CharacterData(
     val id: Int,
     val name: String,
     val description: String?,
-    val thumbnail: Thumbnail?
+    val thumbnail: Thumbnail?,
 ) : Parcelable
 
 
