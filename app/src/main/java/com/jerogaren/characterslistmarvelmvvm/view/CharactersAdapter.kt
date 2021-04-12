@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.jerogaren.characterslistmarvelmvvm.R
 import com.jerogaren.characterslistmarvelmvvm.databinding.ItemCharacterBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
@@ -14,7 +13,7 @@ import com.jerogaren.characterslistmarvelmvvm.util.load
 class CharactersAdapter(val context: Context?, val clickListener: CharacterClickListener) :
     RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder>() {
 
-    var charactersList = listOf<CharacterData>()
+    var charactersList = mutableListOf<CharacterData>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
@@ -34,7 +33,12 @@ class CharactersAdapter(val context: Context?, val clickListener: CharacterClick
     }
 
     fun setCharacters(characters: List<CharacterData>){
-        this.charactersList = characters
+        this.charactersList = characters.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun addCharacters(characters: List<CharacterData>){
+        this.charactersList.addAll(characters)
         notifyDataSetChanged()
     }
 

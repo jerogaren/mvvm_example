@@ -18,10 +18,10 @@ private val api: CharactersApi,
 private val context: Context,
 private val dao: CharactersDAO
 ): CharactersRepository{
-    override suspend fun getAllCharacters(): ResultApp<ResponseApi> {
+    override suspend fun getMoreCharacters(offset: Int, limit: Int): ResultApp<ResponseApi> {
         if (isOnline(context)) {
             return try {
-                val response = api.getAllCharacters(0, 20)
+                val response = api.getAllCharacters(offset, limit)
                 if (response.isSuccessful) {
                     //save the data
                     response.body()?.let {
