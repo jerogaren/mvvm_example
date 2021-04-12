@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerogaren.characterslistmarvelmvvm.MainActivity
+import com.jerogaren.characterslistmarvelmvvm.NetworkManager
 import com.jerogaren.characterslistmarvelmvvm.R
 import com.jerogaren.characterslistmarvelmvvm.databinding.FragmentCharactersBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
@@ -56,7 +57,14 @@ class CharactersFragment : Fragment(), CharacterClickListener {
         charactersViewModel.charactersList.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, "CHARACTERS: "+it.size.toString())
             if (it.isNotEmpty() && it != null){
-                charactersAdapter.addCharacters(it)
+                context?.let { context ->
+                    if (!NetworkManager.isOnline(context)){
+                        charactersAdapter.setCharacters(it)
+                    }else{
+                        charactersAdapter.addCharacters(it)
+                    }
+                }
+
             }
         })
 

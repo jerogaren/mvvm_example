@@ -29,8 +29,7 @@ data class Thumbnail(@PrimaryKey(autoGenerate = true) val id: Int,
 @Entity(tableName = "CharactersData")
 @Parcelize
 data class CharacterData(
-    @PrimaryKey(autoGenerate = true) val primaryKey: Int,
-    val id: Int,
+    @PrimaryKey val id: Int,
     val name: String,
     val description: String?,
     val thumbnail: Thumbnail?,
