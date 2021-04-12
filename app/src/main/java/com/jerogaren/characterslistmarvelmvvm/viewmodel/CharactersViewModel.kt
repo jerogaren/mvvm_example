@@ -9,17 +9,20 @@ import androidx.lifecycle.viewModelScope
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
 import com.jerogaren.characterslistmarvelmvvm.util.ResultApp
 import com.jerogaren.characterslistmarvelmvvm.util.SingleLiveEvent
+import com.jerogaren.characterslistmarvelmvvm.view.CharactersAdapter
+import com.jerogaren.characterslistmarvelmvvm.view.CharactersFragment
 import kotlinx.coroutines.launch
 
-class CharactersViewModel(private val repository: CharactersRepository) : ViewModel(){
+class CharactersViewModel(private val repository: CharactersRepository) : ViewModel() {
 
-    companion object{
+    companion object {
         const val MTAG = "CharactersViewModel"
     }
 
     val showLoading = ObservableBoolean()
     val charactersList = MutableLiveData<List<CharacterData>>()
     val showError = SingleLiveEvent<String>()
+    private var isLoading = true
 
     private var offset = 0
     private val limit = 20
@@ -27,16 +30,31 @@ class CharactersViewModel(private val repository: CharactersRepository) : ViewMo
     fun getMoreCharacters() {
         showLoading.set(true)
         viewModelScope.launch {
-            val result =  repository.getMoreCharacters(offset, limit)
+            val result = repository.getMoreCharacters(offset, limit)
             showLoading.set(false)
             when (result) {
                 is ResultApp.Success -> {
                     charactersList.value = result.success.data.results.toMutableList()
                     offset += limit
-                    Log.d(MTAG, "offset: "+offset)
+                    isLoading = false
+                    Log.d(MTAG, "offset: " + offset)
                 }
                 is ResultApp.Error -> showError.value = result.exception.message
             }
         }
+    }
+
+    fun positionLastItem(lastVisibleItemPosition: Int, listSize: Int) {
+
+        val diffLastVisibleAndTotalSize = listSize - lastVisibleItemPosition
+
+        Log.d(MTAG, "DIFF LAST ITEM POSITION: $diffLastVisibleAndTotalSize")
+
+        if (diffLastVisibleAndTotalSize <= CharactersFragment.NEXT_CALL_OFFSET && !isLoading) {
+            isLoading = true
+            getMoreCharacters()
+        }
+
+
     }
 }

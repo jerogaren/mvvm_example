@@ -25,7 +25,6 @@ class CharactersFragment : Fragment(), CharacterClickListener {
     private val charactersViewModel by viewModel<CharactersViewModel>()
     private lateinit var binding: FragmentCharactersBinding
     private lateinit var charactersAdapter : CharactersAdapter
-    private var isLoading = true
 
     companion object{
         const val FTAG = "CharactersFragment"
@@ -54,7 +53,6 @@ class CharactersFragment : Fragment(), CharacterClickListener {
         charactersViewModel.charactersList.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, "CHARACTERS: "+it.size.toString())
             if (it.isNotEmpty() && it != null){
-                isLoading = false
                 charactersAdapter.addCharacters(it)
             }
         })
@@ -69,22 +67,15 @@ class CharactersFragment : Fragment(), CharacterClickListener {
         charactersAdapter = CharactersAdapter(context, this)
         binding.rvCharacters.setHasFixedSize(true)
         binding.rvCharacters.adapter = charactersAdapter
-        //binding.rvCharacters.isNestedScrollingEnabled = false
-        //binding.rvCharacters.layoutManager = GridLayoutManager(context, 2)
         (binding.rvCharacters.adapter as CharactersAdapter).stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.rvCharacters.addOnScrollListener(object : RecyclerView.OnScrollListener(){
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                Log.d(FTAG, "onScrollStateChanged LAST ITEM POSITION: " +(binding.rvCharacters.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
-                val lastItemPosition = (binding.rvCharacters.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                val diffLastVisibleAndTotalSize = (binding.rvCharacters.adapter as CharactersAdapter).itemCount - lastItemPosition
-                Log.d(FTAG, "DIFF LAST ITEM POSITION: $diffLastVisibleAndTotalSize")
-                if (diffLastVisibleAndTotalSize <= NEXT_CALL_OFFSET && !isLoading){
-                    isLoading = true
-                    charactersViewModel.getMoreCharacters()
-                }
+                charactersViewModel.positionLastItem(
+                    (binding.rvCharacters.layoutManager as LinearLayoutManager).findLastVisibleItemPosition(),
+                    (binding.rvCharacters.adapter as CharactersAdapter).itemCount)
             }
         })
 
