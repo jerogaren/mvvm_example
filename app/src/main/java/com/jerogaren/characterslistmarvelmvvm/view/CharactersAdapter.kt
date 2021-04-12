@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.jerogaren.characterslistmarvelmvvm.R
 import com.jerogaren.characterslistmarvelmvvm.databinding.ItemCharacterBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
+import com.jerogaren.characterslistmarvelmvvm.util.load
 
 class CharactersAdapter(val context: Context?, val clickListener: CharacterClickListener) :
     RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder>() {
@@ -43,6 +45,10 @@ class CharactersAdapter(val context: Context?, val clickListener: CharacterClick
         fun onBind(position: Int) {
             val row = charactersList[position]
             viewBinding.characters = row
+            //Glide.with(viewBinding.root.context).load(row.thumbnail?.path+"."+row.thumbnail?.extension).into(viewBinding.imgThumbnail)
+            val path = row.thumbnail?.path?.split("//")?.last()
+
+            viewBinding.imgThumbnail.load("https://"+path+"."+row.thumbnail?.extension, viewBinding.root.context)
             viewBinding.characterClickInterface = clickListener
         }
     }

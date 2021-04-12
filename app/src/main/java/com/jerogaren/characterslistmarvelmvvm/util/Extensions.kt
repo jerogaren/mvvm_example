@@ -1,10 +1,15 @@
 package com.jerogaren.characterslistmarvelmvvm.util
 
 import android.content.Context
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.jerogaren.characterslistmarvelmvvm.R
 import java.lang.StringBuilder
 import java.security.NoSuchAlgorithmException
@@ -56,4 +61,19 @@ fun String.md5(): String {
         e.printStackTrace()
     }
     return ""
+}
+
+val options = RequestOptions()
+    .centerCrop()
+    .placeholder(R.mipmap.ic_launcher_round)
+    .error(R.mipmap.ic_launcher_round)
+    .diskCacheStrategy(DiskCacheStrategy.ALL)
+    .priority(Priority.HIGH);
+
+fun ImageView.load(url: String, context: Context) {
+
+    Glide.with(context)
+        .load(url)
+        .apply(options)
+        .into(this)
 }

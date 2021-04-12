@@ -54,6 +54,7 @@ class CharactersFragment : Fragment(), CharacterClickListener {
     private fun setView() {
         charactersAdapter = CharactersAdapter(context, this)
         binding.rvCountries.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.rvCountries.hasFixedSize()
         binding.rvCountries.adapter = charactersAdapter
         binding.rvCountries.isNestedScrollingEnabled = false
     }

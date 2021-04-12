@@ -25,7 +25,6 @@ class CharactersViewModel(private val repository: CharactersRepository) : ViewMo
             when (result) {
                 is ResultApp.Success -> {
                     charactersList.value = result.success.data.results.toMutableList()
-                    showError.value = "Error"
                 }
                 is ResultApp.Error -> showError.value = result.exception.message
             }

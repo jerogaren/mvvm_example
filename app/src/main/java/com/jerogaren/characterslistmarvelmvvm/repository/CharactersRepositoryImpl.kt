@@ -21,7 +21,7 @@ private val dao: CharactersDAO
     override suspend fun getAllCharacters(): ResultApp<ResponseApi> {
         if (isOnline(context)) {
             return try {
-                val response = api.getAllCharacters()
+                val response = api.getAllCharacters(0, 20)
                 if (response.isSuccessful) {
                     //save the data
                     response.body()?.let {

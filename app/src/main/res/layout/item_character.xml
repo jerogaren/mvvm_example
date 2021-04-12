@@ -23,11 +23,9 @@
 
         <ImageView
             android:id="@+id/imgThumbnail"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,19 +33,17 @@
 
         <TextView
             android:id="@+id/txtName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:fontFamily="@font/ttf_grobold"
+            android:textSize="22sp"
+            android:gravity="center"
             android:text="@{characters.name}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/semitransparent_black"
+            app:layout_constraintBottom_toBottomOf="@+id/imgThumbnail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imgThumbnail"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="TextView"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="TextView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

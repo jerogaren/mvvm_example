@@ -7,5 +7,6 @@ import retrofit2.http.Query
 
 interface CharactersApi {
     @GET("characters")
-    suspend fun getAllCharacters(@Query("offset") offset: Int? = 0): Response<ResponseApi>
+    suspend fun getAllCharacters(@Query("offset") offset: Int? = 0,
+    @Query("limit") limit: Int? = 20): Response<ResponseApi>
 }

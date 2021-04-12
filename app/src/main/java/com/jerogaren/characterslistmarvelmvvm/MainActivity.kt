@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.title = "All Countries"
+        toolbar?.title = "All Characters"
     }
 
     private fun addCharactersFragment() {
