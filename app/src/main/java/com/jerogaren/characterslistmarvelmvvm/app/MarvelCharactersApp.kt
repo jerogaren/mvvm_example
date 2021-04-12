@@ -19,7 +19,7 @@ class MarvelCharactersApp : Application() {
                 viewModelModule,
                 repositoryModule,
                 networkModule,
-                com.jerogaren.characterslistmarvelmvvm.di.databaseModule
+                databaseModule
             )
         }
     }

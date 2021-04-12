@@ -43,7 +43,9 @@ private val dao: CharactersDAO
 //            } else
             //no network
                 context.noNetworkConnectivityError()
+            return ResultApp.Error(java.lang.Exception())
         }
+
     }
 
     private suspend fun getCountriesDataFromDB(): List<CharacterData> {

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class CharactersViewModel(private val repository: CharactersRepository) : ViewModel(){
 
     val showLoading = ObservableBoolean()
-    val countriesList = MutableLiveData<List<CharacterData>>()
+    val charactersList = MutableLiveData<List<CharacterData>>()
     val showError = SingleLiveEvent<String>()
 
     fun getAllCharacters() {
@@ -24,8 +24,8 @@ class CharactersViewModel(private val repository: CharactersRepository) : ViewMo
             showLoading.set(false)
             when (result) {
                 is ResultApp.Success -> {
-                    countriesList.value = result.successData
-                    showError.value = null
+                    charactersList.value = result.success.data.results.toMutableList()
+                    showError.value = "Error"
                 }
                 is ResultApp.Error -> showError.value = result.exception.message
             }

@@ -15,11 +15,11 @@ val databaseModule = module {
             .build()
     }
 
-    fun provideCountriesDao(database: CharactersDatabase): CharactersDAO {
+    fun provideCharactersDao(database: CharactersDatabase): CharactersDAO {
         return  database.charactersDAO
     }
 
     single { provideDatabase(androidApplication()) }
-    single { provideCountriesDao(get()) }
+    single { provideCharactersDao(get()) }
 
 }
