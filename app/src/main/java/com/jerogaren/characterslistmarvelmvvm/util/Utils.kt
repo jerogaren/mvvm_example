@@ -3,14 +3,14 @@ package com.jerogaren.characterslistmarvelmvvm.util
 import retrofit2.Response
 
 object Utils {
-    fun <T : Any> handleApiError(resp: Response<T>): AppResult.Error {
+    fun <T : Any> handleApiError(resp: Response<T>): ResultApp.Error {
         val error = ApiErrorUtils.parseError(resp)
-        return AppResult.Error(Exception(error.message))
+        return ResultApp.Error(Exception(error.message))
     }
 
-    fun <T : Any> handleSuccess(response: Response<T>): AppResult<T> {
+    fun <T : Any> handleSuccess(response: Response<T>): ResultApp<T> {
         response.body()?.let {
-            return AppResult.Success(it)
+            return ResultApp.Success(it)
         } ?: return handleApiError(response)
     }
 }

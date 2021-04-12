@@ -9,7 +9,7 @@ import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
 @Dao
 interface CharactersDAO {
 
-    @Query("SELECT * FROM Characters")
+    @Query("SELECT * FROM CharactersData")
     fun getAllCharacters(): List<CharacterData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

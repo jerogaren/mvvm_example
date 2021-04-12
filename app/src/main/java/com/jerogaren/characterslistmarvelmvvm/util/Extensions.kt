@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.jerogaren.characterslistmarvelmvvm.R
+import java.lang.StringBuilder
+import java.security.NoSuchAlgorithmException
 
 val Any.TAG: String
     get() {
@@ -35,4 +37,23 @@ inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
     val fragmentTransaction = beginTransaction()
     fragmentTransaction.func()
     fragmentTransaction.commit()
+}
+
+fun String.md5(): String {
+    try {
+        val digest = java.security.MessageDigest.getInstance("MD5")
+        digest.update(toByteArray())
+        val messageDigest = digest.digest()
+        val hexString = StringBuilder()
+        for (aMessageDigest in messageDigest) {
+            var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
+            while (h.length < 2)
+                h = "0$h"
+            hexString.append(h)
+        }
+        return hexString.toString()
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+    }
+    return ""
 }
