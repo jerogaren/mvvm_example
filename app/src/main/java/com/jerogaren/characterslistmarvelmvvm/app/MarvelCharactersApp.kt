@@ -12,7 +12,7 @@ class MarvelCharactersApp : Application() {
         super.onCreate()
 
         startKoin {
-            androidLogger()
+            //androidLogger()
             androidContext(this@MarvelCharactersApp)
             modules(
                 apiModule,
