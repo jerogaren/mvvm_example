@@ -1,16 +1,12 @@
 package com.jerogaren.characterslistmarvelmvvm.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.adapters.AbsListViewBindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jerogaren.characterslistmarvelmvvm.MainActivity
@@ -18,9 +14,7 @@ import com.jerogaren.characterslistmarvelmvvm.NetworkManager
 import com.jerogaren.characterslistmarvelmvvm.R
 import com.jerogaren.characterslistmarvelmvvm.databinding.FragmentCharactersBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
-import com.jerogaren.characterslistmarvelmvvm.util.TAG
 import com.jerogaren.characterslistmarvelmvvm.util.addFragment
-import com.jerogaren.characterslistmarvelmvvm.util.replaceFragment
 import com.jerogaren.characterslistmarvelmvvm.viewmodel.CharactersViewModel
 import com.jerogaren.characterslistmarvelmvvm.viewmodel.MainActivityViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -34,7 +28,7 @@ class CharactersFragment : Fragment(), CharacterClickListener {
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
 
     companion object{
-        const val FTAG = "CharactersFragment"
+        const val TAG = "CharactersFragment"
         const val NEXT_CALL_OFFSET = 3
     }
 
