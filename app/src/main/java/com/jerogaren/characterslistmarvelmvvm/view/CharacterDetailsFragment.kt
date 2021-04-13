@@ -20,6 +20,7 @@ class CharacterDetailsFragment : Fragment() {
 
     private val characterDetailsViewModel by viewModel<CharacterDetailViewModel>()
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
+    private lateinit var adapter: CharactersDetailsAdapter
 
     companion object{
         const val TAG = "CharacterDetailsFrag"
@@ -52,6 +53,7 @@ class CharacterDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setView()
         binding.characterDetail = characterData
         val path = characterData?.thumbnail?.path?.split("//")?.last()
         binding.ivThumbnailDetail.load("https://"+path+"."+characterData?.thumbnail?.extension, binding.root.context)
@@ -60,11 +62,18 @@ class CharacterDetailsFragment : Fragment() {
             characterDetailsViewModel.getCharacterDetail(it.id)
         }
 
-        characterDetailsViewModel.listCharacterDetail.observe(viewLifecycleOwner,{
+        characterDetailsViewModel.listItems.observe(viewLifecycleOwner,{
             Log.d(TAG, "DETAIL CHARACTER: $it")
+            adapter.setItems(it)
         })
 
 
+    }
+
+    private fun setView() {
+        adapter = CharactersDetailsAdapter(context)
+        binding.rvCharactersDetails.setHasFixedSize(true)
+        binding.rvCharactersDetails.adapter = adapter
     }
 
     override fun onResume() {
