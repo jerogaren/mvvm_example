@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jerogaren.characterslistmarvelmvvm.databinding.FragmentCharactersDetailsBinding
 import com.jerogaren.characterslistmarvelmvvm.db.model.CharacterData
+import com.jerogaren.characterslistmarvelmvvm.util.TAG
 import com.jerogaren.characterslistmarvelmvvm.util.load
+import com.jerogaren.characterslistmarvelmvvm.viewmodel.CharacterDetailViewModel
 import com.jerogaren.characterslistmarvelmvvm.viewmodel.MainActivityViewModel
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CharacterDetailsFragment : Fragment() {
 
+    private val characterDetailsViewModel by viewModel<CharacterDetailViewModel>()
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
 
     companion object{
@@ -51,6 +55,16 @@ class CharacterDetailsFragment : Fragment() {
         binding.characterDetail = characterData
         val path = characterData?.thumbnail?.path?.split("//")?.last()
         binding.ivThumbnailDetail.load("https://"+path+"."+characterData?.thumbnail?.extension, binding.root.context)
+
+        characterData?.let {
+            characterDetailsViewModel.getCharacterDetail(it.id)
+        }
+
+        characterDetailsViewModel.listCharacterDetail.observe(viewLifecycleOwner,{
+            Log.d(TAG, "DETAIL CHARACTER: $it")
+        })
+
+
     }
 
     override fun onResume() {

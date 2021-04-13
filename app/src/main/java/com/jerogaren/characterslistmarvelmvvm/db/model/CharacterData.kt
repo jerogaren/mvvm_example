@@ -29,10 +29,11 @@ data class Thumbnail(@PrimaryKey(autoGenerate = true) val id: Int,
 @Entity(tableName = "CharactersData")
 @Parcelize
 data class CharacterData(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val primaryKey: Int,
+    val id: Int,
     val name: String,
     val description: String?,
-    val thumbnail: Thumbnail?,
+    val thumbnail: Thumbnail?
 ) : Parcelable
 
 
